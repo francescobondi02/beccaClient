@@ -13,6 +13,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../userContext";
+import { useContext } from "react";
 
 function Copyright(props) {
   return (
@@ -35,6 +38,21 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { user, changeUser } = useContext(UserContext);
+
+  React.useEffect(() => {
+    axios.get("/utenti/get").then(res => {
+      if(res.status === 200){
+        changeUser(res.data);
+        navigate("/home");
+        //setMyUser(res.data);
+      } else {
+        //navigate("/");
+      }
+    })
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -52,6 +70,8 @@ export default function Login() {
         if (res.status === 200) {
           localStorage.setItem("token", res.data.token);
           console.log("Ti sto per fare un redirect");
+
+          navigate("/home");
         }
       });
   };
