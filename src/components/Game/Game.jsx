@@ -9,7 +9,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const socket = io.connect("http://localhost:3001");
+//const socket = io.connect("http://localhost:3001");
+const socket = io.connect("https://beccaonline.herokuapp.com");
 
 export default function Game() {
   const navigate = useNavigate();
